@@ -114,11 +114,10 @@ const icons = [
 ];
 
 const iconsContainer = document.getElementById("icons-container");
+const iconsTypeSelector = document.getElementById("iconsTypeSelctor");
 
 // stampo tutte le icone
 insertIcons(icons, iconsContainer);
-
-const iconsTypeSelector = document.getElementById("iconsTypeSelctor");
 
 const onSelectChange = function () {
   const iconsTypeSelected = this.value;
@@ -141,14 +140,13 @@ const onSelectChange = function () {
       break;
   }
 };
-
 iconsTypeSelector.addEventListener("change", onSelectChange);
 
 function insertIcons(iconsArray, iconsCreationContainer) {
   iconsCreationContainer.innerHTML = "";
 
   // ciclo che passa tutte le icone
-  iconsArray.forEach(function insertEachCoin(iconObject) {
+  iconsArray.forEach(function insertEachIcon(iconObject) {
     insertIcon(iconObject, iconsCreationContainer);
   });
 
@@ -171,7 +169,7 @@ function insertIcon(iconObject, iconsCreationContainer) {
 }
 
 function filterIconsByType(icons, type) {
-  const filteredIcons = icons.filter(function (_iconArgument, index) {
+  const filteredIcons = icons.filter(function (iconArgument) {
     if (iconArgument.type == type) {
       return true;
     }
