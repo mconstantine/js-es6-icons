@@ -115,67 +115,61 @@ const icons = [
 
 const iconsContainer = document.getElementById("icons-container");
 
-// stampo tutte le icone
+function insertIcons(iconsArray, iconsCreationContainer) {
+  iconsCreationContainer.innerHTML = "";
+
+  //ciclo che passa tutte le icone
+  iconsArray.forEach((element) => {
+    const div = document.createElement("div");
+    div.classList.add("box");
+
+    div.innerHTML = `
+      <i class="${element.family} ${element.prefix}${element.name}" style="color: ${element.color}"></i>
+      <span>${element.name}</span>
+    `;
+
+    iconsCreationContainer.append(div);
+  });
+
+  //stessa logica del forEach ma con il ciclo for
+  // for (let i = 0; i < iconsArray.length; i++) {
+  //   const element = iconsArray[i];
+
+  //   const div = document.createElement("div");
+  //   div.classList.add("box");
+
+  //   div.innerHTML = `
+  //     <i class="${element.family} ${element.prefix}${element.name}" style="color: ${element.color}"></i>
+  //     <span>${element.name}</span>
+  //   `;
+
+  //   iconsCreationContainer.append(div);
+  // }
+}
+
+//stampo tutte le icone
 insertIcons(icons, iconsContainer);
 
 const iconsTypeSelector = document.getElementById("iconsTypeSelctor");
 
-const onSelectChange = function () {
+iconsTypeSelector.addEventListener("change", function () {
   const iconsTypeSelected = this.value;
 
-  switch (iconsTypeSelected) {
-    case "all":
-      insertIcons(icons, iconsContainer);
-      break;
+  //console.log(iconsTypeSelected);
 
-    case "animal":
-      filterIconsByType(icons, "animal");
-      break;
+  if (iconsTypeSelected != "all") {
+    const filteredIcons = icons.filter((iconArgument) => {
+      if (iconArgument.type == iconsTypeSelected) {
+        return true;
+      }
+    });
 
-    case "vegetable":
-      filterIconsByType(icons, "vegetable");
-      break;
+    //filteredIcons
 
-    case "user":
-      filterIconsByType(icons, "user");
-      break;
+    //stampo solo l'array di icone che ho filtrato
+    insertIcons(filteredIcons, iconsContainer);
+  } else {
+    // stampo tutte le icone
+    insertIcons(icons, iconsContainer);
   }
-};
-
-iconsTypeSelector.addEventListener("change", onSelectChange);
-
-function insertIcons(iconsArray, iconsCreationContainer) {
-  iconsCreationContainer.innerHTML = "";
-
-  // ciclo che passa tutte le icone
-  iconsArray.forEach(function insertEachCoin(iconObject) {
-    insertIcon(iconObject, iconsCreationContainer);
-  });
-
-  // stessa logica del forEach ma con il ciclo for
-  // for (let i = 0; i < iconsArray.length; i++) {
-  // 	insertIcon(iconsArray[i], iconsCreationContainer);
-  // }
-}
-
-function insertIcon(iconObject, iconsCreationContainer) {
-  const div = document.createElement("div");
-  div.classList.add("box");
-
-  div.innerHTML = `
-      <i class="${iconObject.family} ${iconObject.prefix}${iconObject.name}" style="color: ${iconObject.color}"></i>
-      <span>${iconObject.name}</span>
-    `;
-
-  iconsCreationContainer.append(div);
-}
-
-function filterIconsByType(icons, type) {
-  const filteredIcons = icons.filter(function (_iconArgument, index) {
-    if (iconArgument.type == type) {
-      return true;
-    }
-  });
-
-  insertIcons(filteredIcons, iconsContainer);
-}
+});
